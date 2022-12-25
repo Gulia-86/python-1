@@ -1,0 +1,81 @@
+"""
+1. Создать программный файл в текстовом формате, записать в него построчно данные, вводимые пользователем.
+Об окончании ввода данных будет свидетельствовать пустая строка.
+"""
+f = open('tmp.txt', 'w')
+string = ' '
+
+while len(string) > 0:
+    string = input('Введите строку для записи, для окончания ввода данных нажмите Enter дважды: ')
+    f.write(string + '\n')
+
+f.close()
+"""
+2. Создать текстовый файл (не программно), сохранить в нём несколько строк, выполнить подсчёт строк и слов в каждой строке.
+"""
+f = open('For_task.txt', 'r', encoding='utf-8')
+lines = f.readlines()
+
+for i in range(0, len(lines)):
+    words_amount = len(lines[i].split())
+    print('В ', i + 1, ' строке ', words_amount, 'слов')
+f.close()
+"""
+3. Создать текстовый файл (не программно). Построчно записать фамилии сотрудников и величину их окладов (не менее 10 строк). 
+Определить, кто из сотрудников имеет оклад менее 20 тысяч, вывести фамилии этих сотрудников. 
+Выполнить подсчёт средней величины дохода сотрудников.
+"""
+from itertools import count
+
+f = open('salary.txt', 'r', encoding='utf-8')
+lines = f.readlines()
+salarySum = 0
+peoples = 0
+
+counter = count()
+for line in lines:
+    peoples = next(counter)
+    name, salaryStr = line.split()
+    salary = float(salaryStr)
+    salarySum += salary
+    if salary < 20000:
+        print(line)
+
+print('Cредняя величина дохода сотрудников: ', round(salarySum / peoples, 2))
+"""
+4. Создать (не программно) текстовый файл со следующим содержимым:
+One — 1
+Two — 2
+Three — 3
+Four — 4
+Напишите программу, открывающую файл на чтение и считывающую построчно данные. 
+При этом английские числительные должны заменяться на русские. Новый блок строк должен записываться в новый текстовый файл.
+"""
+f = open('For_task_5_4.txt', 'r', encoding='utf-8')
+lines = f.readlines()
+f.close()
+digits = {
+    "One": "Один",
+    "Two": "Два",
+    "Three": "Три",
+    "Four": "Четыре"
+}
+f = open('For_task_5_4_2.txt', 'w')
+for line in lines:
+    name, digit = line.split(" — ")
+    str = digits.get(name, "unknown") + " - " + digit
+    print(str)
+    f.write(str)
+f.close()
+"""
+5. Создать (программно) текстовый файл, записать в него программно набор чисел, разделённых пробелами. 
+Программа должна подсчитывать сумму чисел в файле и выводить её на экран.
+"""
+import random
+f = open('For_task_5_5.txt', 'r+', encoding='utf-8')
+for i in range(0, 50):
+    f.write(str(random.randrange(1, 100)) + ' ')
+lines = f.readlines()
+for line in lines:
+    digit = [int(n) for n in line.split()]
+print("сумма чисел в файле ", sum(digit))
